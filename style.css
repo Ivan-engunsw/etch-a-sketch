@@ -1,3 +1,9 @@
+.big-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .container {
     display: flex;
     max-height: 700px;
@@ -6,8 +12,8 @@
     margin: 10px;
 }
 
-.big-container {
+.controls {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    gap: 10px;
 }

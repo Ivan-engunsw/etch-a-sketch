@@ -1,11 +1,22 @@
 let initialGridSize = 16;
 let blocks = [];
 let flexBoxes = [];
+let color = 'black';
+let mousedown = false;
 
+// changes the color as the user clicks on the new color in the color picker
+const colorPicker = document.createElement('input');
+colorPicker.setAttribute('type', 'color');
+document.querySelector('.controls').appendChild(colorPicker);
+colorPicker.addEventListener('input', (e) => {
+    color = e.target.value;
+});
+
+// changes the size of the grid when the user clicks the 'Change Size' button
 const sizeButton = document.createElement('button');
-document.querySelector('.big-container').appendChild(sizeButton);
+document.querySelector('.controls').appendChild(sizeButton);
 sizeButton.textContent = 'Change Size';
-sizeButton.setAttribute('style', 'max-height: 50px; max-width: 100px; border-radius: 8px; background-color: cyan')
+sizeButton.setAttribute('style', 'height: 80px; width: 150px; border-radius: 8px; background-color: cyan')
 sizeButton.addEventListener('click', changeSize);
 
 // creates initial grid with size 16
@@ -14,7 +25,12 @@ createGrid(initialGridSize);
 
 // changes the size of the grid to the new size the user inputs
 function changeSize() {
-    let newSize = parseInt(prompt('Enter a new size for the grid'));
+    let newSizeString = prompt('Enter a new size for the grid');
+    if (newSizeString === null) {
+        return;
+    }
+
+    let newSize = parseInt(newSizeString);
 
     while (newSize < 0 || newSize > 100) {
         alert('Please enter a number between 1 and 100');
@@ -61,9 +77,18 @@ function createGrid(size) {
         blocks[i].style.height = `${700 / size}px`;
         blocks[i].style.width = `${960 / size}px`;
         blocks[i].addEventListener('mouseover', changeColor);
+        blocks[i].addEventListener('mousedown', changeColor);
+        blocks[i].addEventListener('mouseup', changeColor);
     }   
 }
 
 function changeColor(e) {
-    e.target.style.backgroundColor = 'blue';
+    if (e.type === 'mouseover' && !mousedown) {
+        return;
+    } else if (e.type === 'mouseup' && mousedown) {
+        mousedown = false;
+        return;
+    }
+    mousedown = true;
+    e.target.style.backgroundColor = color;
 }
