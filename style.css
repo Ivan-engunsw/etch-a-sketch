@@ -2,9 +2,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: aquamarine;
 }
 
-.container {
+.grid {
     display: flex;
     max-height: 700px;
     max-width: 960px;

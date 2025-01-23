@@ -4,6 +4,14 @@ let flexBoxes = [];
 let color = 'black';
 let mousedown = false;
 
+const body = document.querySelector('body');
+body.addEventListener('mousedown', () => {
+    mousedown = true;
+});
+body.addEventListener('mouseup', () => {
+    mousedown = false;
+});
+
 // changes the color as the user clicks on the new color in the color picker
 const colorPicker = document.createElement('input');
 colorPicker.setAttribute('type', 'color');
@@ -16,7 +24,7 @@ colorPicker.addEventListener('input', (e) => {
 const sizeButton = document.createElement('button');
 document.querySelector('.controls').appendChild(sizeButton);
 sizeButton.textContent = 'Change Size';
-sizeButton.setAttribute('style', 'height: 80px; width: 150px; border-radius: 8px; background-color: cyan')
+sizeButton.setAttribute('style', 'height: 80px; width: 150px; border-radius: 8px; background-color: darkcyan; color: white')
 sizeButton.addEventListener('click', changeSize);
 
 // creates initial grid with size 16
@@ -61,7 +69,7 @@ function createFlexBoxes(size) {
     for (let i = 0; i < size; i++) {
         flexBoxes[i] = document.createElement('div');
         flexBoxes[i].classList.add('flex-box');
-        document.querySelector('.container').appendChild(flexBoxes[i]);
+        document.querySelector('.grid').appendChild(flexBoxes[i]);
         flexBoxes[i].setAttribute('style', `display: flex; flex-direction: column`);
     }
 }
@@ -73,22 +81,17 @@ function createGrid(size) {
         blocks[i] = document.createElement('div');
         blocks[i].classList.add('block');
         flexBoxes[i % size].appendChild(blocks[i]);
-        blocks[i].setAttribute('style', 'border: 1px solid black; padding: auto; background-color: white; box-sizing: border-box');
+        blocks[i].setAttribute('style', 'padding: auto; background-color: white; box-sizing: border-box');
         blocks[i].style.height = `${700 / size}px`;
         blocks[i].style.width = `${960 / size}px`;
         blocks[i].addEventListener('mouseover', changeColor);
         blocks[i].addEventListener('mousedown', changeColor);
-        blocks[i].addEventListener('mouseup', changeColor);
     }   
 }
 
 function changeColor(e) {
     if (e.type === 'mouseover' && !mousedown) {
         return;
-    } else if (e.type === 'mouseup' && mousedown) {
-        mousedown = false;
-        return;
     }
-    mousedown = true;
     e.target.style.backgroundColor = color;
 }
