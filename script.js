@@ -12,6 +12,18 @@ colorPicker.addEventListener('input', (e) => {
     color = e.target.value;
 });
 
+const clearButton = document.createElement('button');
+document.querySelector('.controls').appendChild(clearButton);
+clearButton.textContent = 'Clear Grid';
+clearButton.setAttribute('style', 'height: 80px; width: 150px; border-radius: 8px; background-color: darkcyan; color: white')
+clearButton.addEventListener('click', clearGrid);
+
+function clearGrid() {
+    for (let i = 0; i < blocks.length; i++) {
+        blocks[i].style.backgroundColor = 'white';
+    }
+}
+
 // changes the size of the grid when the user clicks the 'Change Size' button
 const sizeButton = document.createElement('button');
 document.querySelector('.controls').appendChild(sizeButton);
@@ -37,13 +49,13 @@ function changeSize() {
         newSize = parseInt(prompt('Enter a new size for the grid'));
     }
 
-    clearGrid();
+    removeGrid();
     createFlexBoxes(newSize);
     createGrid(newSize);
 }
 
-// clears the grid of all blocks and flex-boxes so the new grid can be created in the same space
-function clearGrid() {
+// removes the grid of all blocks and flex-boxes so the new grid can be created in the same space
+function removeGrid() {
     for (let i = 0; i < blocks.length; i++) {
         blocks[i].remove();
     }
